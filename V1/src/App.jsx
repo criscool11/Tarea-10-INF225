@@ -1,28 +1,46 @@
 import { useState } from 'react';
-// 1. Importamos las páginas y componentes que creamos antes
 import Home from './pages/Home';
 import ReportForm from './pages/ReportForm';
-import './App.css'; // Asegúrate de apuntar a donde tengas tus estilos actuales
+import ReportHistory from './pages/ReportHistory';
+import './stylesheets/index.css';
 
 function App() {
-  // 2. Este estado decide qué pantalla se renderiza ('home' o 'report')
   const [currentPage, setCurrentPage] = useState('home');
+  const [user, setUser] = useState(null);
+  const [reportes, setReportes] = useState([]);
   
-  // Este estado simula si el usuario inició sesión o no (puedes cambiarlo a true para probar)
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [reporteSeleccionado, setReporteSeleccionado] = useState(null);
 
   const handleLogin = () => {
-    alert('Simulación: Iniciando sesión...');
-    setIsLoggedIn(true);
+    alert('Simulación');
+    setUser({
+      nombre: 'User test',
+      correo: 'User@usm.cl'
+    });
   };
 
-  // 3. El "enrutador" condicional
+  const handleLogout = () => {
+    setUser(null);
+    setCurrentPage('home');
+  };
+
+  const agregarReporte = (nuevoReporte) => {
+    setReportes([nuevoReporte, ...reportes]);
+  };
+
+  const verDetalleReporte = (reporte) => {
+    setReporteSeleccionado(reporte);
+    setCurrentPage('detail');
+  };
+
   return (
     <>
       {currentPage === 'home' && (
         <Home 
           onNavigate={setCurrentPage} 
           onLoginClick={handleLogin} 
+          onLogoutClick={handleLogout}
+          user={user} 
         />
       )}
       
@@ -30,7 +48,31 @@ function App() {
         <ReportForm 
           onNavigate={setCurrentPage} 
           onLoginClick={handleLogin}
-          isLoggedIn={isLoggedIn} 
+          onLogoutClick={handleLogout}
+          isLoggedIn={!!user} 
+          user={user}
+          onAgregarReporte={agregarReporte}
+        />
+      )}
+
+      {currentPage === 'history' && (
+        <ReportHistory 
+          onNavigate={setCurrentPage}
+          onLoginClick={handleLogin}
+          onLogoutClick={handleLogout}
+          user={user}
+          reportes={reportes}
+          onVerDetalle={verDetalleReporte} 
+        />
+      )}
+
+      {currentPage === 'detail' && (
+        <ReportDetail 
+          onNavigate={setCurrentPage}
+          onLoginClick={handleLogin}
+          onLogoutClick={handleLogout}
+          user={user}
+          reporte={reporteSeleccionado}
         />
       )}
     </>

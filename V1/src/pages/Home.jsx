@@ -1,10 +1,15 @@
 import Navbar from '../components/Navbar';
-import '../App.css';
+import '../stylesheets/Home.css';
 
-function Home({ onNavigate, onLoginClick }) {
+function Home({ onNavigate, onLoginClick, onLogoutClick, user }) {
   return (
     <div className="home-container">
-      <Navbar onLoginClick={onLoginClick} />
+        <Navbar 
+          onNavigate={onNavigate}
+          onLoginClick={onLoginClick} 
+          onLogoutClick={onLogoutClick} 
+          user={user} 
+        />
       
       <main className="hero-content">
         <h1 className="hero-title">
@@ -12,9 +17,17 @@ function Home({ onNavigate, onLoginClick }) {
           <span style={{ color: '#1e40af' }}>¡Reportalo ahora!</span>
         </h1>
         
-        <button className="btn-report" onClick={() => onNavigate('report')}>
-          Crear Reporte
-        </button>
+        <div className="home-buttons-group">
+          <button className="btn-report" onClick={() => onNavigate('report')}>
+            Crear Reporte
+          </button>
+
+          {user && (
+            <button className="btn-history" onClick={() => onNavigate('history')}>
+              Ver mis Reportes
+            </button>
+          )}
+        </div>
       </main>
     </div>
   );
