@@ -18,7 +18,7 @@ function ReportDetail({ onNavigate, onLoginClick, onLogoutClick, user, reporte }
 
   return (
     <div className="home-container">
-      <Navbar onLoginClick={onLoginClick} onLogoutClick={onLogoutClick} user={user} />
+      <Navbar onLoginClick={onLoginClick} onLogoutClick={onLogoutClick} user={user} onNavigate={onNavigate} />
       
       <main className="form-content">
         <button className="btn-back" onClick={() => onNavigate('history')}>
