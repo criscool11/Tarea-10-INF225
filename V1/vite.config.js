@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: "/Tarea-10-INF225",
+  base: "/Tarea-10-INF225/V1/",
 });
