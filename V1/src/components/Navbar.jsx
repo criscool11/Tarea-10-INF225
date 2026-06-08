@@ -1,4 +1,4 @@
-import '../stylesheets/Navbar.css';
+import '../stylesheets/navbar.css';
 
 function Navbar({ onLoginClick, onLogoutClick, user, onNavigate }) {
   return (

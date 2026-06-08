@@ -83,3 +83,51 @@
   margin-top: 0.25rem;
   z-index: 1;
 }
+
+.map-help {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-top: -0.25rem;
+}
+
+.form-photo-preview-box {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-top: 0.75rem;
+}
+
+.form-thumb-img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.form-thumb-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.btn-remove-thumb {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  align-self: flex-start;
+}
+
+.btn-remove-thumb:hover {
+  text-decoration: underline;
+}

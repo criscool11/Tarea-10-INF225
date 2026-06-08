@@ -2,13 +2,13 @@ import { useState } from 'react';
 import Home from './pages/Home';
 import ReportForm from './pages/ReportForm';
 import ReportHistory from './pages/ReportHistory';
+import ReportDetail from './pages/ReportDetail';
 import './stylesheets/index.css';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [user, setUser] = useState(null);
   const [reportes, setReportes] = useState([]);
-  
   const [reporteSeleccionado, setReporteSeleccionado] = useState(null);
 
   const handleLogin = () => {
@@ -31,6 +31,13 @@ function App() {
   const verDetalleReporte = (reporte) => {
     setReporteSeleccionado(reporte);
     setCurrentPage('detail');
+  };
+
+  const borrarReporte = (idParaBorrar) => {
+    const confirmar = window.confirm('¿Estás seguro?');
+    if (confirmar) {
+      setReportes(reportes.filter(reporte => reporte.id !== idParaBorrar));
+    }
   };
 
   return (
@@ -62,7 +69,8 @@ function App() {
           onLogoutClick={handleLogout}
           user={user}
           reportes={reportes}
-          onVerDetalle={verDetalleReporte} 
+          onVerDetalle={verDetalleReporte}
+          onBorrarReporte={borrarReporte} 
         />
       )}
 

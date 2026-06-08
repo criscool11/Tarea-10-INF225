@@ -1,15 +1,10 @@
 import Navbar from '../components/Navbar';
-import '../stylesheets/Home.css';
+import '../stylesheets/home.css';
 
 function Home({ onNavigate, onLoginClick, onLogoutClick, user }) {
   return (
     <div className="home-container">
-        <Navbar 
-          onNavigate={onNavigate}
-          onLoginClick={onLoginClick} 
-          onLogoutClick={onLogoutClick} 
-          user={user} 
-        />
+      <Navbar onLoginClick={onLoginClick} onLogoutClick={onLogoutClick} user={user} />
       
       <main className="hero-content">
         <h1 className="hero-title">

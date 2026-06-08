@@ -1,17 +1,16 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css'; 
-import '../stylesheets/ReportForm.css';
+import 'leaflet/dist/leaflet.css';
+import '../stylesheets/reportForm.css';
 
 function ReportForm({ onNavigate, onLoginClick, onLogoutClick, isLoggedIn = false, user, onAgregarReporte }) {
   const [email, setEmail] = useState('');
   const [categoria, setCategoria] = useState('');
   const [ubicacionText, setUbicacionText] = useState('');
   const [descripcion, setDescripcion] = useState('');
-
   const [foto, setFoto] = useState(null);
-
+  const [fotoUrl, setFotoUrl] = useState(null);
   const [posicion, setPosicion] = useState([-33.0351, -71.5946]);
 
   function MarcadorMapa() {
@@ -25,8 +24,17 @@ function ReportForm({ onNavigate, onLoginClick, onLogoutClick, isLoggedIn = fals
 
   const handleFotoChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      setFoto(e.target.files[0]);
+      const archivo = e.target.files[0];
+      setFoto(archivo);
+      setFotoUrl(URL.createObjectURL(archivo));
     }
+  };
+
+  const handleQuitarFoto = () => {
+    setFoto(null);
+    setFotoUrl(null);
+    const fileInput = document.getElementById('foto');
+    if (fileInput) fileInput.value = '';
   };
 
   const handleSubmit = (e) => {
@@ -35,36 +43,38 @@ function ReportForm({ onNavigate, onLoginClick, onLogoutClick, isLoggedIn = fals
     const fechaActual = new Date().toLocaleDateString('es-CL');
 
     const nuevoReporte = {
-      id: Date.now(), 
+      id: Date.now(),
       correo: isLoggedIn ? user.correo : email,
       categoria: categoria,
       ubicacion: ubicacionText,
       fecha: fechaActual,
-      estado: 'Pendiente', 
+      estado: 'Sin respuesta',
       respuesta: null,
       descripcion: descripcion,
       coordenadas: posicion,
-      foto: foto ? foto.name : 'Sin foto'
+      fotoNombre: foto ? foto.name : 'Sin foto',
+      fotoUrl: fotoUrl
     };
 
     onAgregarReporte(nuevoReporte);
 
-    alert('¡Reporte enviado con éxito! Ha sido añadido al registro del sistema.');
+    alert('Reporte enviado.');
     
-    if (isLoggedIn) {
-      onNavigate('history');
-    } else {
-      onNavigate('home');
-    }
+    onNavigate('home');
   };
 
   return (
     <div className="home-container">
-      <Navbar onLoginClick={onLoginClick} onLogoutClick={onLogoutClick} user={user} />
+      <Navbar 
+        onLoginClick={onLoginClick} 
+        onLogoutClick={onLogoutClick} 
+        user={user} 
+        onNavigate={onNavigate} 
+      />
       
       <main className="form-content">
         <button className="btn-back" onClick={() => onNavigate('home')}>
-          ← Volver al inicio
+          Volver al inicio
         </button>
 
         <h2 className="form-title">Crear Reporte de Infraestructura</h2>
@@ -139,7 +149,26 @@ function ReportForm({ onNavigate, onLoginClick, onLogoutClick, isLoggedIn = fals
                 onChange={handleFotoChange}
               />
             </div>
-            {foto && <span className="file-selected-name">Archivo listo: {foto.name}</span>}
+            
+            {fotoUrl && (
+              <div className="form-photo-preview-box">
+                <img 
+                  src={fotoUrl} 
+                  alt="Previsualización del incidente" 
+                  className="form-thumb-img" 
+                />
+                <div className="form-thumb-info">
+                  <span>{foto.name}</span>
+                  <button 
+                    type="button" 
+                    className="btn-remove-thumb"
+                    onClick={handleQuitarFoto}
+                  >
+                    Eliminar foto
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="form-group">
